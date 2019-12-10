@@ -8,8 +8,8 @@ private val PROGRAM = listOf(3,225,1,225,6,6,1100,1,238,225,104,0,1101,78,5,225,
 
 fun executeProgram(program: List<Int>, input: Int): Int {
     val listOutput = ListOutput()
-    IntCode(program, StaticInput(input), listOutput).execute()
-    return listOutput.output.last()
+    IntCode(program, StaticInput(input), listOutput).executeBlocking()
+    return listOutput.values.last()
 }
 
 fun dayFivePartOne(): Int = executeProgram(PROGRAM, 1)

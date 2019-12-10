@@ -7,4 +7,9 @@ class Day7Test {
     fun testPartOne() {
         println(daySevenPartOne())
     }
+
+    @Test
+    fun testPartTwo() {
+        println(daySevenPartTwo())
+    }
 }

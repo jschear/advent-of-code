@@ -16,7 +16,7 @@ class OperationResult(val newInstructionPointer: Int, val halt: Boolean = false)
 
 sealed class Operation(val numParameters: Int) {
 
-    abstract fun execute(
+    abstract suspend fun execute(
         program: MutableList<Int>,
         instructionPointer: Int,
         params: List<Parameter>,
@@ -25,7 +25,7 @@ sealed class Operation(val numParameters: Int) {
     ): OperationResult
 
     object Add : Operation( 3) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -43,7 +43,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object Multiply : Operation(3) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -61,7 +61,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object Input : Operation(1) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -76,7 +76,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object Output : Operation( 1) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -90,7 +90,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object JumpIfTrue : Operation(2) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -108,7 +108,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object JumpIfFalse : Operation(2) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -126,7 +126,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object LessThan : Operation(3) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -146,7 +146,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object Equals : Operation(3) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,
@@ -166,7 +166,7 @@ sealed class Operation(val numParameters: Int) {
     }
 
     object Halt : Operation(0) {
-        override fun execute(
+        override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
             params: List<Parameter>,

@@ -1,5 +1,7 @@
 package aoc.intcode
 
+import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
 
 typealias Program = List<Int>
@@ -11,7 +13,9 @@ class IntCode(
 ) {
     private val program = inputProgram.toMutableList()
 
-    fun execute(): Program {
+    fun executeBlocking() = runBlocking { execute() }
+
+    suspend fun execute(): Program {
         var instructionPointer = 0
         while (true) {
             val instruction = program[instructionPointer]

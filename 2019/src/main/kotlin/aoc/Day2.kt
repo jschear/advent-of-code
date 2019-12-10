@@ -171,7 +171,7 @@ fun inputProgram(noun: Int, verb: Int): List<Int> = gravityProgram
 
 fun dayTwoPartOne(): Int {
     val input = inputProgram(12, 2)
-    val result = IntCode(input).execute()
+    val result = IntCode(input).executeBlocking()
     return result[0]
 }
 
@@ -180,7 +180,7 @@ fun dayTwoPartTwo(): Int {
 
     inputs.forEach { (noun, verb) ->
         val inputProgram = inputProgram(noun, verb)
-        val program = IntCode(inputProgram).execute()
+        val program = IntCode(inputProgram).executeBlocking()
         if (program[0] == 19690720) {
             return 100 * noun + verb
         }
