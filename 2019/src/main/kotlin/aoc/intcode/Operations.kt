@@ -1,7 +1,11 @@
 package aoc.intcode
 
+import aoc.intcode.Operation.Add
+
+val createAdd: () -> Operation = ::Add
+
 val OPERATIONS = mapOf(
-    1 to Operation.Add,
+    1 to ::Add,
     2 to Operation.Multiply,
     3 to Operation.Input,
     4 to Operation.Output,
@@ -9,33 +13,46 @@ val OPERATIONS = mapOf(
     6 to Operation.JumpIfFalse,
     7 to Operation.LessThan,
     8 to Operation.Equals,
+    9 to Operation.RelativeBaseOffset,
     99 to Operation.Halt
 )
 
-class OperationResult(val newInstructionPointer: Int, val halt: Boolean = false)
+class OperationResult(
+    val newInstructionPointer: Int,
+    val halt: Boolean = false,
+    val relativeBaseOffset: Int = 0
+)
 
-sealed class Operation(val numParameters: Int) {
+fun Operation.createResult(instructionPointer: Int) = OperationResult(
+    instructionPointer + numParameters + 1
+)
+
+sealed class Operation(
+    val numParameters: Int
+) {
 
     abstract suspend fun execute(
         program: MutableList<Int>,
         instructionPointer: Int,
+        relativeBase: Int,
         params: List<Parameter>,
         input: InputHandler,
         output: OutputHandler
     ): OperationResult
 
-    object Add : Operation( 3) {
+    class Add(input: InputHandler) : Operation( 3) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
             assert(params[2].mode == ParameterMode.POSITION)
 
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
 
             program[params[2].value] = operandOne + operandTwo
             return OperationResult(instructionPointer + numParameters + 1)
@@ -46,14 +63,15 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
             assert(params[2].mode == ParameterMode.POSITION)
 
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
 
             program[params[2].value] = operandOne * operandTwo
             return OperationResult(instructionPointer + numParameters + 1)
@@ -64,6 +82,7 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
@@ -79,11 +98,12 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
-            val operand = params[0].resolve(program)
+            val operand = params[0].resolve(program, relativeBase)
             output.write(operand)
             return OperationResult(instructionPointer + numParameters + 1)
         }
@@ -93,12 +113,13 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
             return if (operandOne != 0) {
                 OperationResult(operandTwo)
             } else {
@@ -111,12 +132,13 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
             return if (operandOne == 0) {
                 OperationResult(operandTwo)
             } else {
@@ -129,14 +151,15 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
             assert(params[2].mode == ParameterMode.POSITION)
 
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
 
             val result = if (operandOne < operandTwo) 1 else 0
             program[params[2].value] = result
@@ -149,18 +172,33 @@ sealed class Operation(val numParameters: Int) {
         override suspend fun execute(
             program: MutableList<Int>,
             instructionPointer: Int,
+            relativeBase: Int,
             params: List<Parameter>,
             input: InputHandler,
             output: OutputHandler
         ): OperationResult {
             assert(params[2].mode == ParameterMode.POSITION)
 
-            val operandOne = params[0].resolve(program)
-            val operandTwo = params[1].resolve(program)
+            val operandOne = params[0].resolve(program, relativeBase)
+            val operandTwo = params[1].resolve(program, relativeBase)
 
             val result = if (operandOne == operandTwo) 1 else 0
             program[params[2].value] = result
 
+            return OperationResult(instructionPointer + numParameters + 1)
+        }
+    }
+
+    object RelativeBaseOffset : Operation(1) {
+        override suspend fun execute(
+            program: MutableList<Int>,
+            instructionPointer: Int,
+            relativeBase: Int,
+            params: List<Parameter>,
+            input: InputHandler,
+            output: OutputHandler
+        ): OperationResult {
+            val operandOne = params[0].resolve(program, relativeBase)
             return OperationResult(instructionPointer + numParameters + 1)
         }
     }

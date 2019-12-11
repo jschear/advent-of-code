@@ -17,6 +17,7 @@ class IntCode(
 
     suspend fun execute(): Program {
         var instructionPointer = 0
+        var relativeBase = 0
         while (true) {
             val instruction = program[instructionPointer]
             val opCode = instruction % 100
