@@ -1,6 +1,7 @@
 package aoc.intcode
 
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.toList
 import java.util.*
 
 // Input
