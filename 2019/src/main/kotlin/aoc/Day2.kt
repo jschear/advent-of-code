@@ -162,14 +162,15 @@ val gravityProgram = listOf(
     0
 )
 
-fun inputProgram(noun: Int, verb: Int): List<Int> = gravityProgram
+fun inputProgram(noun: Int, verb: Int): List<Long> = gravityProgram
     .toMutableList()
     .apply {
         this[1] = noun
         this[2] = verb
     }
+    .map(Int::toLong)
 
-fun dayTwoPartOne(): Int {
+fun dayTwoPartOne(): Long {
     val input = inputProgram(12, 2)
     val result = IntCode(input).executeBlocking()
     return result[0]
@@ -181,7 +182,7 @@ fun dayTwoPartTwo(): Int {
     inputs.forEach { (noun, verb) ->
         val inputProgram = inputProgram(noun, verb)
         val program = IntCode(inputProgram).executeBlocking()
-        if (program[0] == 19690720) {
+        if (program[0] == 19690720L) {
             return 100 * noun + verb
         }
     }

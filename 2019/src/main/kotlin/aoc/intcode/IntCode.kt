@@ -4,16 +4,18 @@ import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
 
-typealias Program = List<Int>
+typealias Program = List<Long>
 
 class IntCode(
     inputProgram: Program,
-    private val inputHandler: InputHandler = StdIn(),
-    private val outputHandler: OutputHandler = StdOut()
+    private val inputHandler: InputHandler<Long> = StdIn(),
+    private val outputHandler: OutputHandler<Long> = StdOut()
 ) {
-    private val program = inputProgram.toMutableList()
+    private val program = MutableList(1024) { 0L }.apply {
+        addAll(0, inputProgram)
+    }
 
-    fun executeBlocking() = runBlocking { execute() }
+    fun executeBlocking(): Program = runBlocking { execute() }
 
     suspend fun execute(): Program {
         var instructionPointer = 0
@@ -35,11 +37,12 @@ class IntCode(
             log("Executing operation: $operation")
             log("  with parameters: $params")
 
-            val result = operation.execute(program, instructionPointer, params, inputHandler, outputHandler)
+            val result = operation.execute(program, instructionPointer, relativeBase, params, inputHandler, outputHandler)
             if (result.halt) {
                 return program
             }
             instructionPointer = result.newInstructionPointer
+            relativeBase += result.relativeBaseOffset
         }
     }
 }

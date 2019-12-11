@@ -1,17 +1,22 @@
 package aoc.intcode
 
 val PARAMETER_MODES = mapOf(
-    0 to ParameterMode.POSITION,
-    1 to ParameterMode.IMMEDIATE,
-    2 to ParameterMode.RELATIVE
+    0L to ParameterMode.POSITION,
+    1L to ParameterMode.IMMEDIATE,
+    2L to ParameterMode.RELATIVE
 )
 
 enum class ParameterMode { POSITION, IMMEDIATE, RELATIVE }
 
-data class Parameter(val mode: ParameterMode, val value: Int)
+data class Parameter(val mode: ParameterMode, val value: Long)
 
-fun Parameter.resolve(program: List<Int>, relativeBase: Int): Int = when (mode) {
-    ParameterMode.POSITION -> program[value]
+fun Parameter.resolve(program: Program, relativeBase: Int): Long = when (mode) {
     ParameterMode.IMMEDIATE -> value
-    ParameterMode.RELATIVE -> program[relativeBase + value]
+    else -> program[address(relativeBase)]
+}
+
+fun Parameter.address(relativeBase: Int): Int = when (mode) {
+    ParameterMode.POSITION -> value.toInt()
+    ParameterMode.RELATIVE -> value.toInt() + relativeBase
+    ParameterMode.IMMEDIATE -> error("Immediate paramters do not reference an address")
 }
