@@ -88,7 +88,39 @@ class Day10Test {
 
     @Test
     fun partOne() {
-        println(maxNumVisibleAsteroids(INPUT))
+        println(maxNumVisibleAsteroids(INPUT_MAP))
+    }
+
+    @Test
+    fun sampleVaporized() {
+        val map = """
+            .#..##.###...#######
+            ##.############..##.
+            .#.######.########.#
+            .###.#######.####.#.
+            #####.##.#.##.###.##
+            ..#####..#.#########
+            ####################
+            #.####....###.#.#.##
+            ##.#################
+            #####.##.###..####..
+            ..######..##.#######
+            ####.##.####...##..#
+            .#####..#.######.###
+            ##...#.##########...
+            #.##########.#######
+            .####.#.###.###.#.##
+            ....##.##.###..#####
+            .#.#.###########.###
+            #.#.#.#####.####.###
+            ###.##.####.##.#..##
+        """.trimIndent()
+        assertEquals(802, twoHundredthVaporized(map))
+    }
+
+    @Test
+    fun partTwo() {
+        println(twoHundredthVaporized(INPUT_MAP))
     }
 }
 

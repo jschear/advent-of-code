@@ -1,6 +1,7 @@
 package aoc
 
 import kotlin.math.abs
+import kotlin.math.hypot
 
 enum class Direction {
     RIGHT, UP, LEFT, DOWN
@@ -11,6 +12,8 @@ data class Move(val direction: Direction, val value: Int)
 data class Point(val x: Int, val y: Int)
 
 operator fun Point.plus(other: Point): Point = Point(x + other.x, y + other.y)
+
+fun Point.distanceTo(other: Point): Double = hypot(other.x.toDouble() - x, other.y.toDouble() - y)
 
 fun moves(input: String): List<Move> = input
     .split(",")
