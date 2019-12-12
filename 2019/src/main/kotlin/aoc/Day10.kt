@@ -14,11 +14,6 @@ fun mapToPoints(input: String): Set<Point> = input.split("\n")
     }
     .toSet()
 
-fun test() {
-    val points = mapToPoints(MAP)
-
-}
-
 fun angleBetween(a: Point, b: Point): Double {
     // tangent(angle) = opposite / adjacent
     // angle = arctan(opposite / adjacent)
@@ -29,29 +24,23 @@ fun angleBetween(a: Point, b: Point): Double {
     return atan2(dy.toDouble(), dx.toDouble())
 }
 
-val MAP = """
-    .###.#...#.#.##.#.####..
-    .#....#####...#.######..
-    #.#.###.###.#.....#.####
-    ##.###..##..####.#.####.
-    ###########.#######.##.#
-    ##########.#########.##.
-    .#.##.########.##...###.
-    ###.#.##.#####.#.###.###
-    ##.#####.##..###.#.##.#.
-    .#.#.#####.####.#..#####
-    .###.#####.#..#..##.#.##
-    ########.##.#...########
-    .####..##..#.###.###.#.#
-    ....######.##.#.######.#
-    ###.####.######.#....###
-    ############.#.#.##.####
-    ##...##..####.####.#..##
-    .###.#########.###..#.##
-    #.##.#.#...##...#####..#
-    ##.#..###############.##
-    ##.###.#####.##.######..
-    ##.#####.#.#.##..#######
-    ...#######.######...####
-    #....#.#.#.####.#.#.#.##
-""".trimIndent()
+fun maxNumVisibleAsteroids(input: String): Int {
+    val asteroids = mapToPoints(input)
+    val numVisible = asteroids.map { station ->
+        asteroids.distinctBy { asteroid -> angleBetween(station, asteroid) }.count()
+    }
+    return numVisible.max()!!
+}
+
+fun twoHundredthVaporized(input: String): Int {
+    val asteroids = mapToPoints(input)
+
+    val station = asteroids.maxBy { candidate ->
+        asteroids.distinctBy { asteroid -> angleBetween(candidate, asteroid) }.count()
+    }!!
+
+    station
+
+}
+
+// sort by angle, then by distance, find 200th
