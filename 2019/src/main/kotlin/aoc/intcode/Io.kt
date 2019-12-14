@@ -2,6 +2,7 @@ package aoc.intcode
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.toList
+import java.io.Closeable
 import java.util.*
 
 // Input
@@ -44,10 +45,12 @@ fun <T> InputHandler<T>.startWith(vararg values: T): InputHandler<T> = InitialVa
 // Output
 interface OutputHandler<in T> {
     suspend fun write(value: T)
+    fun close()
 }
 
 class StdOut : OutputHandler<Long> {
     override suspend fun write(value: Long) = println(value)
+    override fun close() = Unit
 }
 
 class ListOutput<T> : OutputHandler<T> {
@@ -59,8 +62,13 @@ class ListOutput<T> : OutputHandler<T> {
     override suspend fun write(value: T) {
         _values.add(value)
     }
+
+    override fun close() = Unit
 }
 
 class ChannelOutput<T>(private val channel: Channel<T>) : OutputHandler<T> {
     override suspend fun write(value: T) = channel.send(value)
+    override fun close() {
+        channel.close()
+    }
 }

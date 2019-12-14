@@ -39,6 +39,7 @@ class IntCode(
 
             val result = operation.execute(program, instructionPointer, relativeBase, params, inputHandler, outputHandler)
             if (result.halt) {
+                outputHandler.close()
                 return program
             }
             instructionPointer = result.newInstructionPointer
@@ -50,7 +51,5 @@ class IntCode(
 const val DEBUG = false
 
 fun log(log: String) {
-    if (DEBUG) {
-        println(log)
-    }
+    if (DEBUG) println(log)
 }
