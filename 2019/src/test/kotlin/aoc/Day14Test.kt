@@ -125,46 +125,46 @@ class Day14Test {
 
     @Test
     fun sampleOne() {
-        assertEquals(165, minimumOreOneFuel(parseInput(sampleOne)))
+        assertEquals(165, minimumOreOneFuel(parseReactionInput(sampleOne)))
     }
 
     @Test
     fun sampleTwo() {
-        assertEquals(13312, minimumOreOneFuel(parseInput(sampleTwo)))
+        assertEquals(13312, minimumOreOneFuel(parseReactionInput(sampleTwo)))
     }
 
     @Test
     fun sampleThree() {
-        assertEquals(180697, minimumOreOneFuel(parseInput(sampleThree)))
+        assertEquals(180697, minimumOreOneFuel(parseReactionInput(sampleThree)))
     }
 
     @Test
     fun sampleFour() {
-        assertEquals(2210736, minimumOreOneFuel(parseInput(sampleFour)))
+        assertEquals(2210736, minimumOreOneFuel(parseReactionInput(sampleFour)))
     }
 
     @Test
     fun partOne() {
-        println(minimumOreOneFuel(parseInput(input)))
+        println(minimumOreOneFuel(parseReactionInput(input)))
     }
 
     @Test
     fun partTwoSampleTwo() {
-        assertEquals(82892753, fuelForOneTrillionOre(parseInput(sampleTwo)))
+        assertEquals(82892753, fuelForOneTrillionOre(parseReactionInput(sampleTwo)))
     }
 
     @Test
     fun partTwoSampleThree() {
-        assertEquals(5586022, fuelForOneTrillionOre(parseInput(sampleThree)))
+        assertEquals(5586022, fuelForOneTrillionOre(parseReactionInput(sampleThree)))
     }
 
     @Test
     fun partTwoSampleFour() {
-        assertEquals(460664, fuelForOneTrillionOre(parseInput(sampleFour)))
+        assertEquals(460664, fuelForOneTrillionOre(parseReactionInput(sampleFour)))
     }
 
     @Test
     fun partTwo() {
-        println(fuelForOneTrillionOre(parseInput(input)))
+        println(fuelForOneTrillionOre(parseReactionInput(input)))
     }
 }

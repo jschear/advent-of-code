@@ -1,7 +1,5 @@
 package aoc
 
-import kotlin.math.absoluteValue
-
 typealias Chemical = String
 
 data class ChemicalAmount(val amount: Int, val chemical: Chemical)
@@ -12,7 +10,7 @@ data class Reaction(val reactants: List<ChemicalAmount>, val product: ChemicalAm
 const val ORE = "ORE"
 const val FUEL = "FUEL"
 
-fun parseInput(input: String): List<Reaction> = input.lines()
+fun parseReactionInput(input: String): List<Reaction> = input.lines()
     .map { line ->
         val (reactantsString, productsString) = line.split("=>")
         val reactants = reactantsString.split(",").map(String::toChemicalAmount)
