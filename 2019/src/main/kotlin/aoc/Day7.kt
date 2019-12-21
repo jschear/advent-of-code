@@ -81,8 +81,7 @@ fun <T> List<T>.permutations(): List<List<T>> =
         listOf(this)
     } else {
         indices.flatMap { i ->
-            val first = this[i]
             val rest = toMutableList().apply { removeAt(i) }
-            rest.permutations().map { permuted -> listOf(first) + permuted }
+            rest.permutations().map { permuted -> listOf(this[i]) + permuted }
         }
     }

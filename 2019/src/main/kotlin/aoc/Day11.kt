@@ -91,9 +91,16 @@ class Robot(
     }
 }
 
-enum class Turn { LEFT, RIGHT }
+enum class Turn {
+    LEFT {
+        override fun toString() = "L"
+    },
+    RIGHT {
+        override fun toString() = "R"
+    }
+}
 
-private fun Direction.turn(turn: Turn): Direction = when (this) {
+fun Direction.turn(turn: Turn): Direction = when (this) {
     Direction.RIGHT -> if (turn == Turn.LEFT) Direction.UP else Direction.DOWN
     Direction.UP -> if (turn == Turn.LEFT) Direction.LEFT else Direction.RIGHT
     Direction.LEFT -> if (turn == Turn.LEFT) Direction.DOWN else Direction.UP

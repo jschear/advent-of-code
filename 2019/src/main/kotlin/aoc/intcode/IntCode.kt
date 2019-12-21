@@ -11,7 +11,7 @@ class IntCode(
     private val inputHandler: InputHandler<Long> = StdIn(),
     private val outputHandler: OutputHandler<Long> = StdOut()
 ) {
-    private val program = MutableList(1024) { 0L }.apply {
+    private val program = MutableList(2048) { 0L }.apply {
         addAll(0, inputProgram)
     }
 
