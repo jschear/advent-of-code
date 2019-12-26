@@ -2,7 +2,6 @@ package aoc
 
 import aoc.intcode.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -17,7 +16,7 @@ fun daySevenPartOne(): Long = listOf(0, 1, 2, 3, 4)
             val output = ListOutput<Long>()
             val intCode = IntCode(
                 PROGRAM,
-                StaticInput(phases[i].toLong(), signal),
+                VarArgInput(phases[i].toLong(), signal),
                 output
             )
             intCode.executeBlocking()

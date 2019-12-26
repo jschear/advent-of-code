@@ -2,7 +2,7 @@ package aoc
 
 import aoc.intcode.IntCode
 import aoc.intcode.ListOutput
-import aoc.intcode.StaticInput
+import aoc.intcode.VarArgInput
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -37,12 +37,12 @@ class Day9Test {
 
     @Test
     fun partOne() {
-        IntCode(BOOST, StaticInput(1L)).executeBlocking()
+        IntCode(BOOST, VarArgInput(1L)).executeBlocking()
     }
 
     @Test
     fun partTwo() {
-        IntCode(BOOST, StaticInput(2L)).executeBlocking()
+        IntCode(BOOST, VarArgInput(2L)).executeBlocking()
     }
 }
 

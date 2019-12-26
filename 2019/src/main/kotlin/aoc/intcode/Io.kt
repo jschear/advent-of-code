@@ -17,8 +17,13 @@ class StdIn : InputHandler<Long> {
     }
 }
 
-class StaticInput<T>(vararg inputs: T) : InputHandler<T> {
+class VarArgInput<T>(vararg inputs: T) : InputHandler<T> {
     private val _inputs = ArrayDeque(inputs.toList())
+    override suspend fun read(): T = _inputs.pop()
+}
+
+class ListInput<T>(input: List<T>) : InputHandler<T> {
+    private val _inputs = ArrayDeque(input)
     override suspend fun read(): T = _inputs.pop()
 }
 

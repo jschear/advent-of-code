@@ -2,7 +2,7 @@ package aoc
 
 import aoc.intcode.IntCode
 import aoc.intcode.ListOutput
-import aoc.intcode.StaticInput
+import aoc.intcode.VarArgInput
 
 val DRONE_PROGRAM = Drone::class.java.getResource("nineteen.txt")
     .readText()
@@ -11,7 +11,7 @@ val DRONE_PROGRAM = Drone::class.java.getResource("nineteen.txt")
 
 class Drone(x: Int, y: Int) {
     private val listOutput = ListOutput<Long>()
-    private val intCode: IntCode = IntCode(DRONE_PROGRAM, StaticInput(x.toLong(), y.toLong()), listOutput)
+    private val intCode: IntCode = IntCode(DRONE_PROGRAM, VarArgInput(x.toLong(), y.toLong()), listOutput)
 
     fun send(): Long {
         intCode.executeBlocking()
