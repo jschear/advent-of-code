@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.receiveOrNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 fun day15partOne(): Int {
     val size = 50
@@ -164,7 +165,7 @@ private fun log(log: String) {
 //    println(log)
 }
 
-private fun <T> MutableList<T>.removeLast(): T = this.removeAt(size - 1)
+fun <T> MutableList<T>.removeLast(): T = this.removeAt(size - 1)
 
 private fun Array<IntArray>.getByPoint(point: Point): Int = this[point.y][point.x]
 
@@ -228,10 +229,10 @@ private fun minutesToFill(grid: Array<IntArray>): Int {
 
     val distances = mutableMapOf(start to 0)
     val visited = mutableSetOf(start)
-    val queue = mutableListOf(start)
+    val queue = LinkedList(listOf(start))
 
     while (queue.isNotEmpty()) {
-        val point = queue.removeLast()
+        val point = queue.removeFirst()
         val distanceToPoint = distances[point] ?: error("No distance for point $point")
         for (nextPoint in grid.possibleMoves(point)) {
             if (nextPoint !in visited) {

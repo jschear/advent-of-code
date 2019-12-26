@@ -19,12 +19,12 @@ class Day6Test {
             J)K
             K)L
             """.trimIndent()
-        assertEquals(42, Graph(testInput).totalOrbits())
+        assertEquals(42, OrbitGraph(testInput).totalOrbits())
     }
 
     @Test
     fun testPartOne() {
-        println(Graph(INPUT).totalOrbits())
+        println(OrbitGraph(INPUT).totalOrbits())
     }
 
     @Test
@@ -44,12 +44,12 @@ class Day6Test {
             K)YOU
             I)SAN
             """.trimIndent()
-        assertEquals(4, Graph(testInput).minOrbitalTransfers())
+        assertEquals(4, OrbitGraph(testInput).minOrbitalTransfers())
     }
 
     @Test
     fun testPartTwo() {
-        println(Graph(INPUT).minOrbitalTransfers())
+        println(OrbitGraph(INPUT).minOrbitalTransfers())
     }
 }
 

@@ -2,7 +2,7 @@ package aoc
 
 typealias Node = String
 
-class Graph(input: String) {
+class OrbitGraph(input: String) {
     private val edges: Map<Node, Node>
     private val nodes: Set<Node>
 

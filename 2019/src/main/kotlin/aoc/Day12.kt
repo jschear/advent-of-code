@@ -5,6 +5,8 @@ import kotlin.math.abs
 
 data class Vec3(val x: Int, val y: Int, val z: Int) {
 
+    constructor(point: Point, z: Int = 0) : this(point.x, point.y, z)
+
     operator fun plus(other: Vec3) = Vec3(x + other.x, y + other.y, z + other.z)
 
     fun pull(other: Vec3) = Vec3(
@@ -24,6 +26,8 @@ data class Vec3(val x: Int, val y: Int, val z: Int) {
     }
 
     fun sumAbs(): Int = abs(x) + abs(y) + abs(z)
+
+    fun to2d() = Point(x, y)
 
     companion object {
         val ZERO = Vec3(0, 0, 0)
