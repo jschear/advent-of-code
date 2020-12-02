@@ -1,3 +1,3 @@
 # TwentyTwenty
 
-This year in Swift.
+This year in Swift. I'm learning, these might be gross!
