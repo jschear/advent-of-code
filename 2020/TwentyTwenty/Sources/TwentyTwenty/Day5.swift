@@ -78,3 +78,23 @@ func day5part2(input: String) -> Set<Int> {
     let max = seatIds.max()!
     return Set(min...max).subtracting(seatIds)
 }
+
+// or...
+func lmaoItsBinary(input: String) -> (maxId: Int, mySeat: Int) {
+    let charToBinaryDigit = { (char: Character) -> String in
+        switch char {
+        case "B", "R":
+            return "1"
+        default:
+            return "0"
+        }
+    }
+    let seatIds = input.split(separator: "\n")
+        .map { ticket in ticket.map(charToBinaryDigit).joined() }
+        .map { Int.init($0, radix: 2)! }
+    
+    let min = seatIds.min()!
+    let max = seatIds.max()!
+    let mySeat = (min...max).first(where: { !seatIds.contains($0) })!
+    return (max, mySeat)
+}

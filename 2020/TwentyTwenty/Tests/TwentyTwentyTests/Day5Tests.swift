@@ -29,6 +29,10 @@ final class Day5Tests: XCTestCase {
     func testPart2() {
         print(day5part2(input: input))
     }
+    
+    func testAMoreCleverSolution() {
+        print(lmaoItsBinary(input: input))
+    }
 }
 
 private let input = """
