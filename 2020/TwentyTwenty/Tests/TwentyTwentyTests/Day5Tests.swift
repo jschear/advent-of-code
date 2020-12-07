@@ -3,7 +3,7 @@ import XCTest
 @testable import TwentyTwenty
 
 final class Day5Tests: XCTestCase {
-    func testExample() throws {
+    func testExample() {
         XCTAssertEqual(
             locateSeat(ticket: Ticket.create(from: "FBFBBFFRLR")),
             Seat(row: 44, col: 5)
