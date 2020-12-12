@@ -21,8 +21,7 @@ final class Day6Tests: XCTestCase {
     }
     
     private func loadInput() -> String {
-        let inputUrl = Bundle.module.url(forResource: "Day6", withExtension: "txt")!
-        return try! String(contentsOf: inputUrl)
+        loadTxtFile(named: "Day6")
     }
 }
 
