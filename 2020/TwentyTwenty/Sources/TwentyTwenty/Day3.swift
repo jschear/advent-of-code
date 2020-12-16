@@ -1,5 +1,5 @@
 
-struct Point: Hashable {
+private struct Point: Hashable {
     let x: Int
     let y: Int
     
