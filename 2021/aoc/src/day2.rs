@@ -1,6 +1,7 @@
 #[derive(Copy, Clone)]
 enum Strategy {
-    Naive, Correct
+    Naive,
+    Correct,
 }
 
 enum Action {
@@ -42,19 +43,23 @@ fn parse_input(input: &str) -> Vec<Action> {
                 "forward" => Action::Forward(magnitude),
                 "down" => Action::Down(magnitude),
                 "up" => Action::Up(magnitude),
-                _ => panic!("Unrecognized action")
+                _ => panic!("Unrecognized action"),
             }
         })
         .collect()
 }
 
 fn execute_plan(plan: &[Action], stategy: Strategy) -> i32 {
-    let position = Position { horizontal: 0, depth: 0, aim: 0 };
+    let position = Position {
+        horizontal: 0,
+        depth: 0,
+        aim: 0,
+    };
     let final_position = plan.iter().fold(position, |mut position, action| {
         position.apply(action, stategy);
         position
     });
-    return final_position.horizontal * final_position.depth
+    return final_position.horizontal * final_position.depth;
 }
 
 pub fn solve() {
