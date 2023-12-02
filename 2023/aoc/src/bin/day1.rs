@@ -42,25 +42,19 @@ fn part2(input: String) -> u32 {
     ]);
 
     input.lines().fold(0, |acc, line| {
-        let numbers_found_from_start: Vec<_> = text_to_number
+        let first_number = text_to_number
             .iter()
+            // for each string representing a number, find first occurrence in line
             .filter_map(|(key, value)| line.find(key).map(|index| (index, value)))
-            .collect();
-
-        let numbers_found_from_end: Vec<_> = text_to_number
-            .iter()
-            .filter_map(|(key, value)| line.rfind(key).map(|index| (index, value)))
-            .collect();
-
-        let first_number = numbers_found_from_start
-            .iter()
-            .min_by_key(|(index, _)| index)
+            // the occurrence with the smallest index is the first number
+            .min_by_key(|(index, _)| *index)
             .map(|(_, value)| *value)
             .expect("Failed to find first number.");
 
-        let last_number = numbers_found_from_end
+        let last_number = text_to_number
             .iter()
-            .max_by_key(|(index, _)| index)
+            .filter_map(|(key, value)| line.rfind(key).map(|index| (index, value)))
+            .max_by_key(|(index, _)| *index)
             .map(|(_, value)| *value)
             .expect("Failed to find last number.");
 
